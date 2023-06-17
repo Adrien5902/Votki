@@ -1,0 +1,60 @@
+{
+    "default_name": "Un gens",
+
+    "random_questions": [
+        "Qui est la plus grosse chienne ici",
+        "Qui est le plus beau",
+        "Qui est le plus con",
+        "Qui est la plus grosse salope",
+        "Qui est le plus gros rat",
+        "Qui est la plus grosse merde"
+    ],
+
+    "settings":{
+        "anonymous-votes":{
+            "name": "<i class=\"fa-solid fa-user-secret\"></i> Votes anonymes",
+            "default": true,
+            "type": "boolean"
+        },
+        "anonymous-questions": {
+            "name": "<i class=\"fa-solid fa-circle-info\"></i> Afficher qui propose les questions",
+            "default": true,
+            "type": "boolean"
+        },
+        "random-questions":{
+            "name": "<i class=\"fa-solid fa-circle-question\"></i> Autoriser les questions sans inspi",
+            "default":true,
+            "type": "boolean"
+        }
+    },
+    
+    "modes": {
+        "normal": {
+            "name": "Normal",
+            "description": "Le mode de base",
+            "default": true,
+            "settings": [
+                "anonymous-votes",
+                "anonymous-questions",
+                "random-questions"
+            ],
+            "phases":[
+                {
+                    "id": "questions",
+                    "duration": 30
+                },
+                {
+                    "id": "vote",
+                    "duration": 15
+                }
+            ]
+        },
+        "test":{
+            "name": "Tess",
+            "description": "❤️",
+            "settings": [
+                "anonymous-votes"
+            ]
+        }
+    }
+}

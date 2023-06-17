@@ -1,0 +1,129 @@
+@font-face {
+    font-family: "Milky Nice";
+    src: url("MilkyNice.ttf");
+}
+
+body[theme="dark"]{
+    --bg: #1c1c1c;
+    --primary: #3d3d3d;
+    --secondary: #171717;
+    --textColor: #ffffff;
+}
+
+body[theme="light"]{
+    --bg: #1b1b1b;
+    --primary: #6e6e6e;
+    --secondary: #3f3f3f;
+    --textColor: #ffffff;
+}
+
+body{
+    background: var(--bg);
+    color: var(--textColor);
+    font-family: "Milky Nice", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.1em;
+    text-align: center;
+    overflow: hidden;
+}
+
+#content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    > * {
+        display: none;
+    }
+
+    .displayed{
+        display: grid;
+    }
+}
+
+h1{
+    font-size: 4em;
+}
+
+button{
+    color: var(--textColor);
+    border: var(--primary) solid;
+    background: var(--primary);
+    border-width: 8px 16px 16px 8px;
+    margin: 0.5em;
+    transition-duration: 200ms;
+    cursor: pointer;
+    font-size: 1.2em;
+    border-radius: 12px;
+    background-clip: padding-box;
+    transform-origin: 100% 100%;
+    font-family: inherit;
+    box-shadow: var(--bg) 3px 3px 4px 8px;
+    transition-property: border-width, transform;
+}
+
+button:hover{
+    filter: brightness(0.8);
+}
+
+button:not(#copy-invite-link):active{
+    border-width: 8px;
+    transform: translate(8px, 8px);
+}
+
+#create-game button{
+    font-size: 1.5em;
+}
+
+input{
+    width: initial;
+    height: initial;
+    font-size: inherit;
+    background: var(--primary);
+    color: var(--textColor);
+    outline: 0;
+    border: 0;
+    padding: 8px;
+    border-radius: 12px;
+    font-family: inherit;
+}
+
+input::placeholder{
+    color: var(--textColor);
+}
+
+.swap{
+    transform: translate(120vw, 0) scale(0);
+    transform-origin: 50% 50%;
+    transition-duration: 1000ms;
+    position: absolute;
+}
+
+.box{
+    background: var(--secondary);
+    color: var(--textColor);
+    width: max-content;
+    min-height: 30vh;
+    padding: 1em;
+    border-radius: 12px;
+    margin: 12px;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+
+.pdp {
+    border-radius: 100%;
+    width: 10em;
+    height: 10em;
+    border: var(--primary) solid 8px;
+    user-select: none;
+}
+
+#invite-link{
+    width: 20em;
+    display: flex;
+    background: var(--primary);
+    height: 1em;
+    padding: 12px;
+    align-items: center;
+}

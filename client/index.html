@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <title>Votki</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+        <script src="https://adrien5902.ddns.net:3002/socket.io/socket.io.js"></script>
+        <script src="script.js" defer></script>
+        <script src="https://kit.fontawesome.com/6ccc2473c8.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body theme="light">
+        <h1 id="title">Votki</h1>
+
+        <div id="content">
+            <div id="choose-name" class="box">
+                <img src="user.png" alt="" class="pdp" draggable="false">
+                <input type="text" placeholder="Nom...">
+            </div>
+            <div id="create-game" class="box">
+                <h2>Pour jouer commencez par :</h2>
+                <button>Créer une partie</button>
+            </div>
+
+            <div id="player-list" class="box">
+
+            </div>
+
+            <div id="game-settings" class="box">
+                <div>
+                    <label>Inviter des amis :</label>
+                    <div style="display: flex; align-items: center;">
+                        <span style="width: -webkit-fill-available;" id="invite-link">Test</span>
+                        <button style="border-top-left-radius: 0; border-bottom-left-radius: 0;" id="copy-invite-link">Copier</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
