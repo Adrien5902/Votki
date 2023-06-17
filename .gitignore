@@ -1,2 +1,4 @@
 node_modules/
 game_saves/
+client/avatars
+server/package-lock.json
