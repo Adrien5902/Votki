@@ -171,7 +171,7 @@ module.exports = class User{
     }
 
     getRandomAvatar(){
-        let avatars = fs.readdirSync("E:\\xampp\\htdocs\\votki\\avatars")
+        let avatars = fs.readdirSync(config.avatars_dir)
         let index = Math.floor(Math.random() * avatars.length)
         this.avatar = avatars[index]
         if(this.game){
