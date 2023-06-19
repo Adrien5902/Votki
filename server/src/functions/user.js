@@ -7,15 +7,17 @@ fs = require('fs')
 
 module.exports = class User{
     /**
-     * @param {Socket} client 
-     * @param {string} name 
+     * @param {Socket} client Socket client 
+     * @param {string} name Name of the user
+     * @param {Game | null} game For ts purposes only do not fill up
      */
-    constructor(client, name = config.default_name) {
+    constructor(client, name = config.default_name, game = null) {
         this.client = client
         this.name = name
         this.avatar = "user.png"
-        this.game = null
+        this.game = game
         this.grade = 0
+        this.ready = false
         
         this.client.onAny((event, ...arg) => {
             if(typeof this[event] == "function"){
@@ -38,25 +40,27 @@ module.exports = class User{
     }
 
     /**
-     * @returns {boolean}
-     * @param {string} gameId 
+     * @param {string} gameId Id of the game to join
      */
     join(gameId){
         console.log(this.name + " is trying to join game with id " + gameId)
 
         let game = games.find(game => game.id == gameId)
 
-        if(game){
-            this.game = game
-            game.join(this)
-            return true
-        }else
-        return false
+        if(!game) {
+            this.client.emit("error", errors.cantFindGame.message)
+            return false
+        }
+    
+        game.join(this)
+        this.game = game
+
+        return true
     }
 
     /**
-     * @returns {string | null}
-     * @param {string | null} newName 
+     * @returns {string | null} The assigned new name
+     * @param {string | null} newName The new name to assign
      */
     rename(newName = config.default_name){
         newName = newName ?? config.default_name
@@ -64,33 +68,29 @@ module.exports = class User{
             console.log(this.name + " renamed himself " + newName)
             this.name = newName
         }
-        return newName
+        return this.name
     }
 
     /**
-     * @returns {any | null}
+     * @returns {Object} Game status
      */
     getGameStatus(){
-        try {
-            return this.game.getStatus()
-        } catch (error) {
-            this.game = null
-            return null
-        }
+        if(!this.game) throw errors.playerNotInAGame
+        return this.game.getStatus()
     }
 
     /**
-     * @param {string} username
-     * @returns {Object | null}
+     * @param {string} username The username to create the game with
+     * @returns {Object | null} Object containing game status, id, settings and new username
      */
     createGame(username){
         if(!this.game){
-            this.rename(username)
+            let newName = this.rename(username)
             let game = new Game()
             game.join(this)
             console.log(this.name + " created a new game with id " + game.id)
             this.grade = 2
-            return {id: game.id, status: game.getStatus(), username}
+            return {id: game.id, status: game.getStatus(), username: newName, settings: game.getSettings()}
         }else
         return null
     }
@@ -121,10 +121,13 @@ module.exports = class User{
         }
     }
 
+    /**
+     * @param {string} mode The game mode id to set to
+     */
     setGameMode(mode = "normal"){
-        if(!this.hasModPerms()){
-            throw new VotkiPermsError(2)
-        }
+        if(!this.game) throw errors.playerNotInAGame
+        if(this.game.phase != "lobby") throw errors.gameAlreadyStarted
+        if(!this.hasModPerms()) throw new VotkiPermsError(2)
 
         this.game.settings.mode = mode
         this.game.broadcast("settingsChanged", this.game.getSettings())
@@ -133,29 +136,27 @@ module.exports = class User{
     }
 
     /**
-     * @param {string} setting 
-     * @param {any} arg 
+     * @param {string} setting The setting to set to
+     * @param {any} arg The value to set
      */
     setGameSetting(setting, arg){
-        if(!this.hasModPerms()){
-            throw new VotkiPermsError(2)
-        }
+        if(!this.game) throw errors.playerNotInAGame
+        if(this.game.phase != "lobby") throw errors.gameAlreadyStarted
+        if(!this.hasModPerms()) throw new VotkiPermsError(2)
 
         this.game.settings[setting] = arg
         this.game.broadcast("settingsChanged", this.game.getSettings())
     }
 
     getGameSettings(){
+        if(!this.game) throw errors.playerNotInAGame
         return this.game.getSettings()
     }
 
     /**
-     * @returns {boolean}
+     * @returns {boolean} if user has mod perms or not
      */
     hasModPerms(){
-        if(!this.game){
-            throw errors.playerNotInAGame
-        }
         return this.grade >= 2
     }
 
@@ -164,8 +165,9 @@ module.exports = class User{
     }
 
     startGame(){
-        if(!this.hasModPerms())
-        throw new VotkiPermsError(2)
+        if(!this.game) throw errors.playerNotInAGame
+        if(this.game.phase != "lobby") throw errors.gameAlreadyStarted
+        if(!this.hasModPerms()) throw new VotkiPermsError(2)
 
         this.game.start()
     }

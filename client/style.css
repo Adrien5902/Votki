@@ -3,58 +3,71 @@
     src: url("MilkyNice.ttf");
 }
 
+body[theme="main"]{
+    --text: #ffffff;
+    --background: #0e0e0e;
+    --primary: #525252;
+    --secondary: #303030;
+    --accent: #7e00ff;
+}
+
 body[theme="dark"]{
-    --bg: #0e0e0e;
+    --background: #0e0e0e;
     --primary: #303030;
     --secondary: #000000;
-    --textColor: #ffffff;
+    --text: #ffffff;
+    --accent: #00dd00;
 }
 
 body[theme="hack"]{
-    --bg: #060606;
+    --background: #060606;
     --primary: #262626;
     --secondary: #181818;
-    --textColor: #23ff00;
+    --text: #23ff00;
+    --accent: #00dd00;
 }
 
 body[theme="gray"]{
-    --bg: #1b1b1b;
+    --background: #1b1b1b;
     --primary: #6e6e6e;
     --secondary: #3f3f3f;
-    --textColor: #ffffff;
+    --text: #ffffff;
+    --accent: #00dd00;
 }
 
 body[theme="salmon"]{
-    --bg: #ff8383;
+    --background: #ff8383;
     --primary: #ff4040;
     --secondary: #ff5b5b;
-    --textColor: #ffffff;
+    --text: #ffffff;
+    --accent: #00dd00;
 }
 
 body[theme="sky"]{
-    --bg: #6398ff;
+    --background: #6398ff;
     --primary: #2b37ff;
     --secondary: #1d67ff;
-    --textColor: #ffffff;
+    --text: #ffffff;
+    --accent: #00dd00;
 }
 
 body[theme="desaturated"]{
-    --bg: #b5c0ff;
+    --background: #b5c0ff;
     --primary: #ff9fff;
     --secondary: #c3ffc3;
-    --textColor: white;
+    --text: white;
+    --accent: #00dd00;
 }
 
 body{
-    background: var(--bg);
-    color: var(--textColor);
+    background: var(--background);
+    color: var(--text);
     font-family: "Milky Nice", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.1em;
     text-align: center;
     overflow-x: hidden;
     user-select: none;
-
-    --green: #00dd00;
+    
     --abit: 4px;
     --some: 8px;
     --lot: 12px;
@@ -92,6 +105,11 @@ body{
     #github-link{
         display: none;
     }
+
+    #error-popups{
+        font-size: .5em;
+        width: 50vw !important;
+    }
 }
 
 @media (min-width:950px) {
@@ -124,11 +142,11 @@ body{
 
 h1{
     font-size: 4em;
+    color: var(--accent);
 }
 
 button{
-    color: var(--textColor);
-    border: var(--primary) solid var(--some);
+    color: var(--text);
     background: var(--primary);
     margin: 0.5em;
     transition-duration: 200ms;
@@ -138,20 +156,21 @@ button{
     background-clip: padding-box;
     transform-origin: 100% 100%;
     font-family: inherit;
-    box-shadow: var(--bg) var(--abit) var(--abit) 0 var(--some);
+    box-shadow: var(--background) var(--abit) var(--abit) 0 var(--some);
     transition-property: margin, transform, box-shadow;
     outline: 0;
-    /* height: 1.5em; */
+    padding: var(--lot);
+    border: 0;
 }
 
-button:hover{
-    filter: brightness(0.8);
+a:hover, button:hover{
+    filter: brightness(0.9);
 }
 
 button:not(#copy-invite-link):active{
     margin-top: calc(0.5em + var(--some) + var(--abit)*2);
     transform: translate(var(--some), var(--some));
-    box-shadow: var(--bg) var(--tiny) var(--tiny) 0 var(--abit);
+    box-shadow: var(--background) var(--tiny) var(--tiny) 0 var(--abit);
 }
 
 #create-game button{
@@ -163,7 +182,7 @@ input{
     height: initial;
     font-size: inherit;
     background: var(--primary);
-    color: var(--textColor);
+    color: var(--text);
     outline: 0;
     border: 0;
     padding: var(--some);
@@ -173,12 +192,12 @@ input{
 }
 
 input::placeholder{
-    color: var(--textColor);
+    color: var(--text);
 }
 
 .box{
     background: var(--secondary);
-    color: var(--textColor);
+    color: var(--text);
     width: max-content;
     min-height: 30vh;
     padding: 1em;
@@ -197,7 +216,7 @@ input::placeholder{
     aspect-ratio: 1/1;
     border: var(--primary) solid .5em;
     margin: var(--abit);
-    background: var(--bg);
+    background: var(--primary);
 }
 
 #invite-link{
@@ -221,12 +240,12 @@ input::placeholder{
 
     > button{
         box-shadow: unset;
-        border-color: var(--bg);
-        font-size: 1.5em;
+        border-color: var(--background);
+        font-size: 1.8em;
         height: auto;
         margin: 0;
         border-radius: inherit;
-        background: var(--bg);
+        background: var(--background);
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
         padding: var(--lot);
@@ -239,11 +258,11 @@ input::placeholder{
     align-items: center;
     justify-content: space-between;
     padding: var(--some) var(--tiny);
-    border: solid var(--bg) var(--some);
     border-radius: var(--lot);
-    margin: var(--abit);
+    margin: var(--lot);
     height: 2em;
     max-width: 70vw;
+    background: var(--background);
 
     > * {
         display: flex !important;
@@ -264,15 +283,20 @@ input::placeholder{
         }
 
         > .pdp{
-            border-width: var(--abit);
+            border: none;
             height: -webkit-fill-available;
-            margin: 0;
+            margin: var(--abit);
+            transition: border-radius 200ms ease;
         }
     }
 }
 
+.user:hover .pdp{
+    border-radius: var(--lot);
+}
+
 .user[you]{
-    border-color: var(--primary);
+    background: var(--accent);
 }
 
 .tridotoverflow{
@@ -300,7 +324,7 @@ input::placeholder{
 }
 
 .user[grade="1"] .fa-crown{
-    color: var(--green);
+    color: limegreen;
 }
 
 .user[grade="2"] .fa-crown{
@@ -374,7 +398,7 @@ h3, h4, h5{
 }
 
 [mode][selected]{
-    border: var(--some) solid var(--textColor);
+    border: var(--some) solid var(--accent);
     margin: var(--some) !important;
 }
 
@@ -475,6 +499,7 @@ button.error{
     right: var(--lot);
     bottom: var(--lot);
     border: solid var(--primary) var(--abit);
+    transition: 500ms;
 }
 
 #github-link{
@@ -484,4 +509,43 @@ button.error{
     right: 0;
     font-size: 2em;
     margin: var(--some);
+}
+
+
+#error-popups{
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding-top: 12px;
+    width: 20vw;
+
+    > *{
+        transform: scaleX(0);
+        transform-origin: 100%;
+        animation: error-popup 5s ease;
+        display: flex;
+        background: red;
+        transition-duration: 0.5s;
+        position: relative;
+        padding: var(--some);
+        border-radius: var(--some);
+        overflow: hidden;
+        margin: var(--some) 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        align-items: center;
+        max-height: 2.5em;
+        width: inherit;
+        
+        > * {
+            margin: var(--abit);
+        }
+    }
+}
+
+@keyframes error-popup {
+    0%{ transform: scaleX(0%); }
+    10%{ transform: scaleX(100%); }
+    90%{ transform: scaleX(100%); }
+    100%{ transform: scaleX(0%); }
 }

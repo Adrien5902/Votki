@@ -40,14 +40,8 @@
                 "random-questions"
             ],
             "phases":[
-                {
-                    "id": "questions",
-                    "duration": 30
-                },
-                {
-                    "id": "vote",
-                    "duration": 15
-                }
+                "ask-questions",
+                "vote-questions"
             ]
         },
         "test":{

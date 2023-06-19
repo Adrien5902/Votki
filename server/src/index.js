@@ -39,17 +39,23 @@ function findUser(username){
 
 const commands = {
     "setgrade": {
+        /**
+         * @param {string} username 
+         */
         execute: (username, grade = 2) => {
             let user = findUser(username)
             grade = Number(grade)
             if(user){
                 user.grade = grade
-                user.game.broadcast("playersChanged", user.game.getUsers())
+                if(user.game) user.game.broadcast("playersChanged", user.game.getUsers())
             }
         }
     },
 
     "kick": {
+        /**
+         * @param {string} username 
+         */
         execute: (username) => {
             let user = findUser(username)
             if(user){

@@ -1,15 +1,32 @@
-const connecting = document.getElementById("connecting")
+const connecting = document.getElementById("connecting"),
+connectionError = document.getElementById("connection-error")
+
+connecting.style.display = "none"
+
 if(typeof io == "undefined"){
-    connecting.classList.remove("tripledotloading")
-    connecting.innerHTML = "Échec de la connexion au serveur"
-    connecting.style.color = "red"
-}else{
-    document.body.removeChild(connecting)
+    connectionError.style.display = "block"
 }
 
 const socket = io('https://adrien5902.ddns.net:3002');
 const urlSearchParams = new URLSearchParams(window.location.search);
 const params = Object.fromEntries(urlSearchParams.entries());
+
+const errorPopups = document.getElementById("error-popups")
+/** @param {string} err  */
+function error(err){
+    let errorDiv = document.createElement("div")
+    document.body.appendChild(errorDiv)
+
+    errorDiv.innerHTML = 
+    `<i class="fa-solid fa-triangle-exclamation"></i>
+    <span>${err}</span>`
+
+    errorPopups.appendChild(errorDiv)
+    setTimeout(()=>{
+        errorPopups.removeChild(errorDiv)
+    }, 5000)
+}
+
 
 let username
 let usernameInput = document.getElementById("username")
@@ -86,7 +103,7 @@ function addRightClick(el, buttons){
     })
 }
 
-/**
+/**CSSclass
  * @param {string | string[]} menu 
  */
 function display(menu = "main", CSSclass = "displayed"){
@@ -118,6 +135,7 @@ function showCreateGameMenu(){
 
         request("createGame", info => {
             if(info && info.id){
+                console.log(info)
                 username = info.username
                 display(["choose-name", "create-game"], "swap")
                 display(["game-settings", "player-list-container"])
@@ -177,36 +195,36 @@ function displaySettings(settings){
 }
 
 /**
- * @param {string} gameId 
+ * @param {string} gameId
  */
-function tryGameJoin(gameId){
-    display(["choose-name", "game-join"])
-    let joinBtn = document.getElementById("join-button")
+function tryGameJoin(gameId) {
+    display(["choose-name", "game-join"]);
+    let joinBtn = document.getElementById("join-button");
 
     joinBtn.onclick = () => {
-        let name = usernameInput.value ? usernameInput.value : null
-        display(["choose-name", "game-join"], "swap")
-        request("rename", (un) => {username = un}, name)
+        let name = usernameInput.value ? usernameInput.value : null;
+        display(["choose-name", "game-join"], "swap");
+        request("rename", (un) => { username = un; }, name);
 
-        request("join", joined => {
-            if(!joined){
-                showCreateGameMenu()
-                return
+        request("join", (joined) => {
+            if (!joined) {
+                showCreateGameMenu();
+                return;
             }
-    
+
             request("getGameStatus", (gameStatus) => {
-                if(!gameStatus){
-                    showCreateGameMenu()
-                    return
+                if (!gameStatus) {
+                    showCreateGameMenu();
+                    return;
                 }
 
-                display(["game-settings", "player-list-container"])
-                displayGameInvite(gameId)
+                display(["game-settings", "player-list-container"]);
+                displayGameInvite(gameId);
 
-                request("getGameSettings", displaySettings)
-            })
-        }, gameId)
-    }
+                request("getGameSettings", displaySettings);
+            });
+        }, gameId);
+    };
 }
 
 /**
@@ -227,8 +245,8 @@ function displayGameInvite(gameId){
 
     copyBtn.onclick = () => {
         navigator.clipboard.writeText(invite)
-        copyBtn.style.background = "var(--green)"
-        copyBtn.style.borderColor = "var(--green)"
+        copyBtn.style.background = "var(--accent)"
+        copyBtn.style.borderColor = "var(--accent)"
         copyBtn.innerHTML = '<i class="fa-solid fa-clipboard-check"></i> Copié'
 
         setTimeout(()=>{
@@ -254,7 +272,7 @@ function displayPlayers(users, username){
         userDiv.setAttribute("grade", String(user.grade))
 
         userDiv.innerHTML += `<div class="user-main">
-            <img src="avatars/${user.avatar}" class="pdp">
+            <img src="avatars/${user.avatar}" class="pdp" draggable="false">
             <span class="username">${user.name}</span>
         </div>`;
         
@@ -277,6 +295,7 @@ function displayPlayers(users, username){
 }
 
 socket.on("connect", () => {
+    connecting.style.display = "none"
     if(params.game){
         let gameId = params.game
         tryGameJoin(gameId)
@@ -294,6 +313,7 @@ socket.on("connect", () => {
         
             case "ping timeout":
                 socket.connect()
+                connecting.style.display = "block"
                 break;
         
             default:
@@ -330,8 +350,13 @@ request("getGameModes", modes => {
     }
 })
 
-socket.on("error", err => console.error(err))
+socket.on("error", error)
 
+/**
+ * @param {HTMLElement} el 
+ * @param {boolean} updateOnClick 
+ * @param {function} cb 
+ */
 function customCheckBox(el, updateOnClick = true, cb = () => {}){
     let i = document.createElement("i")
     i.classList.add("fa-check", "fa-solid")
@@ -362,5 +387,28 @@ function getRandomAvatar(){
     })
 }
 
-document.getElementById("reroll-avatar").onclick = getRandomAvatar
+let rerollAvatar = document.getElementById("reroll-avatar")
+rerollAvatar.onclick = () => {
+    getRandomAvatar()
+    rerollAvatar.animate([
+        {
+            transform: "rotate(0deg)"
+        },
+        {
+            transform: "rotate(-360deg)"
+        }
+    ], {duration : 150})
+}
 getRandomAvatar()
+
+document.getElementById("start-game").onclick = () => {
+    request("startGame")
+}
+
+socket.on("gameUpdate", (status) => {
+    switch (status) {
+        case "ask-questions":
+            
+            break;
+    }
+})
