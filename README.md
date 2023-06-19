@@ -2,7 +2,7 @@
 
 
 # FR
-[Lien vers le jeu](https://adrien5902.ddns.net/votki/)
+<a href="https://adrien5902.ddns.net/votki/" target="_blank">Lien vers le jeu</a>
 
 Pour installer les modules coté server :
 ```
@@ -11,7 +11,7 @@ npm i
 ```
 
 # EN
-[Link to the game](https://adrien5902.ddns.net/votki/)
+<a href="https://adrien5902.ddns.net/votki/" target="_blank">Lien vers le jeu</a>
 
 To install server side modules :
 ```
