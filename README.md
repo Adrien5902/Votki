@@ -1,10 +1,10 @@
 # Votki
 
-#EN
+# EN
 
 
-#FR
+# FR
 ``` npm i ```
 
-##Crédits
+## Crédits
 Adrien5902
