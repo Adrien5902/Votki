@@ -1,5 +1,5 @@
 {
-    "avatars_dir": "E:\\xampp\\htdocs\\votki\\avatars",
+    "avatars_dir": "E:\\xampp\\htdocs\\votki\\src\\assets\\avatars",
     "default_name": "Un gens",
 
     "random_questions": [
@@ -13,17 +13,20 @@
 
     "settings":{
         "anonymous-votes":{
-            "name": "<i class=\"fa-solid fa-user-secret\"></i> Votes anonymes",
+            "icon": "user-secret",
+            "name": "Votes anonymes",
             "default": true,
             "type": "boolean"
         },
         "anonymous-questions": {
-            "name": "<i class=\"fa-solid fa-circle-info\"></i> Afficher qui propose les questions",
+            "icon": "circle-info",
+            "name": "Afficher qui propose les questions",
             "default": true,
             "type": "boolean"
         },
         "random-questions":{
-            "name": "<i class=\"fa-solid fa-circle-question\"></i> Autoriser les questions sans inspi",
+            "icon": "circle-question",
+            "name": "Autoriser les questions sans inspi",
             "default":true,
             "type": "boolean"
         }

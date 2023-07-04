@@ -76,7 +76,7 @@ module.exports = class User{
      */
     getGameStatus(){
         if(!this.game) throw errors.playerNotInAGame
-        return this.game.getStatus()
+        return this.game.getStatus(this)
     }
 
     /**
@@ -90,7 +90,7 @@ module.exports = class User{
             game.join(this)
             console.log(this.name + " created a new game with id " + game.id)
             this.grade = 2
-            return {id: game.id, status: game.getStatus(), username: newName, settings: game.getSettings()}
+            return {id: game.id, status: game.getStatus(this), username: newName, settings: game.getSettings()}
         }else
         return null
     }
@@ -114,7 +114,7 @@ module.exports = class User{
                 }
             }
 
-            this.game.broadcast("playersChanged", this.game.getUsers())
+            this.game.mappedBroadcast("playersChanged", (user)=> this.game?.getUsers(user))
         }else{
             console.log("Game " + this.game.id + " disconnected")
             games.splice(games.findIndex(game => game == this.game), 1)
@@ -177,7 +177,7 @@ module.exports = class User{
         let index = Math.floor(Math.random() * avatars.length)
         this.avatar = avatars[index]
         if(this.game){
-            this.game.broadcast("playersChanged", this.game.getUsers())
+            this.game.mappedBroadcast("playersChanged", (user)=> this.game?.getUsers(user))
         }
         return this.avatar
     }

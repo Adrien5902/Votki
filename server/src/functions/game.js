@@ -39,20 +39,29 @@ module.exports = class Game{
         this.setMode("normal")
     }
 
-    getStatus(){
+    /**
+     * @param {User | null} triggeringUser 
+     * @returns 
+     */
+    getStatus(triggeringUser = null){
         return {
-            users: this.getUsers(),
+            users: this.getUsers(triggeringUser),
             phase: this.phase,
         }
     }
 
-    getUsers(){
+    /**
+     * @param {User | null} triggeringUser 
+     * @returns 
+     */
+    getUsers(triggeringUser = null){
         const users = []
         for(let user of this.users){
             users.push({
                 name: user.name, 
                 avatar: user.avatar,
                 grade: user.grade,
+                you: user == triggeringUser
             })
         }
         return users
@@ -69,7 +78,7 @@ module.exports = class Game{
         user.client.join(this.id)
         user.game = this
 
-        this.broadcast("playersChanged", this.getUsers())
+        this.mappedBroadcast("playersChanged", (user) => this.getUsers(user))
 
         console.log(user.name + " joined game with id " + this.id)
     }
@@ -80,6 +89,16 @@ module.exports = class Game{
      */
     broadcast(channel, ...arg){
         io.to(this.id).emit(channel, ...arg)
+    }
+
+    /**
+     * @param {string} channel 
+     * @param {function} mapping 
+     */
+    mappedBroadcast(channel, mapping){
+        for(let user of this.users){
+            user.client.emit(channel, mapping(user))
+        }
     }
 
     start(){
@@ -139,6 +158,7 @@ module.exports = class Game{
                 value,
                 type: data.type,
                 name: data.name,
+                icon: data.icon,
                 default: data.default,
             }
         }
