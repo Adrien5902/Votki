@@ -1,13 +1,29 @@
 {
-    "workspaces": [
-        "apps/*",
-        "packages/*"
-    ],
-    "dependencies": {
-        "turbo": "^1.10.15"
-    },
-    "scripts": {
-        "dev": "turbo dev",
-        "build": "turbo build"
-    }
+  "name": "votki",
+  "version": "1.0.0",
+  "description": "Votki web game by Adrien5902",
+  "scripts": {
+    "dev": "turbo dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adrien5902/Votki.git"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "keywords": [
+    "Votki"
+  ],
+  "author": "Adrien5902",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Adrien5902/Votki/issues"
+  },
+  "homepage": "https://github.com/Adrien5902/Votki#readme",
+  "devDependencies": {
+    "turbo": "^1.10.16"
+  }
 }

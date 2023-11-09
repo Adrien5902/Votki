@@ -4,10 +4,6 @@
         "build": {
             "dependsOn": [
                 "^build"
-            ],
-            "outputs": [
-                ".next/**",
-                "!.next/cache/**"
             ]
         },
         "deploy": {
