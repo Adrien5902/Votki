@@ -1,8 +1,6 @@
-//@ts-check
-
-const { io, server, games } = require('./functions/misc');
-const User = require('./functions/user');
-const readline = require('readline');
+import { io, server, games } from './functions/misc';
+import User from './functions/user';
+// import { createInterface } from 'readline';
 
 io.on('connection', client => {
     let user = new User(client)
@@ -17,17 +15,13 @@ io.on('connection', client => {
 
 server.listen(3002);
 
-let rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-})
+// let rl = createInterface({
+//     input: process.stdin,
+//     output: process.stdout,
+// })
 
 
-/**
- * @param {string} username 
- * @returns {User | null}
- */
-function findUser(username){
+function findUser(username: string){
     for(let game of games){
         let user = game.users.find(user => user.name == username)
 
@@ -39,10 +33,7 @@ function findUser(username){
 
 const commands = {
     "setgrade": {
-        /**
-         * @param {string} username 
-         */
-        execute: (username, grade = 2) => {
+        execute: (username: string, grade = 2) => {
             let user = findUser(username)
             grade = Number(grade)
             if(user){
@@ -53,10 +44,7 @@ const commands = {
     },
 
     "kick": {
-        /**
-         * @param {string} username 
-         */
-        execute: (username) => {
+        execute: (username: string) => {
             let user = findUser(username)
             if(user){
                 user.leave()
@@ -66,15 +54,15 @@ const commands = {
     }
 }
 
-rl.on('line', (line) => {
-    for(let commandName of Object.keys(commands)){
-        if(!line.startsWith(commandName)){
-            continue
-        }
+// rl.on('line', (line) => {
+//     for(let commandName of Object.keys(commands)){
+//         if(!line.startsWith(commandName)){
+//             continue
+//         }
 
-        let command = commands[commandName]
-        const args = line.split(" ")
-        args.splice(0, 1)
-        command.execute.apply(this, args)
-    }
-});
+//         let command = commands[commandName]
+//         const args = line.split(" ")
+//         args.splice(0, 1)
+//         command.execute.apply(this, args)
+//     }
+// });

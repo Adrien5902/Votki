@@ -1,31 +1,29 @@
 {
   "name": "votki",
   "version": "1.0.0",
-  "description": "Votki back-end by Adrien5902",
-  "main": "src/index.js",
+  "description": "Votki web game by Adrien5902",
   "scripts": {
+    "dev": "turbo dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Adrien5902/Votki.git"
   },
+  "workspaces": [
+    "./client",
+    "./server"
+  ],
   "keywords": [
-    "Vote"
+    "Votki"
   ],
   "author": "Adrien5902",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Adrien5902/Votki/issues"
   },
   "homepage": "https://github.com/Adrien5902/Votki#readme",
-  "dependencies": {
-    "fs": "^0.0.1-security",
-    "https": "^1.0.0",
-    "readline": "^1.3.0",
-    "socket.io": "^4.6.2"
-  },
   "devDependencies": {
-    "@types/node": "^20.9.0"
+    "turbo": "^1.10.16"
   }
 }

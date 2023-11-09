@@ -1,22 +1,24 @@
-//@ts-check
-const https = require('https')
-const fs = require("fs")
-const { Server } = require("socket.io")
+import https from 'https';
+import fs from "fs";
+import { Server } from "socket.io";
+import Game from './game';
+import config from "./../config.json"
+
 const options = {
     key: fs.readFileSync('C:\\SSL certs\\privkey.pem'),
     cert: fs.readFileSync('C:\\SSL certs\\cert.pem')
 };
 
-const server = https.createServer(options);
+export const server = https.createServer(options);
 
-const io = new Server(server, {  
+export const io = new Server(server, {  
     cors: {
         origin: "https://adrien5902.ddns.net",
         methods: ["GET", "POST"]
     }
 });
 
-class VotkiError extends Error{
+export class VotkiError extends Error{
     constructor(message = "Une erreur est survenue"){
         message = message ?? "Une erreur est survenue"
         super(message)
@@ -31,39 +33,23 @@ class VotkiError extends Error{
     }
 }
 
-class VotkiPermsError extends VotkiError{
-    /**
-     * @param {Number} level 
-     */
-    constructor(level){
+export class VotkiPermsError extends VotkiError{
+    level: number
+
+    constructor(level: number){
         super(`Vous avez besoin de permissions de niveau ${level} pour faire ceci`)
         this.level = level
     }
 }
 
-const config = JSON.parse(fs.readFileSync("src/config.json").toString())
-
-const games = []
+export const games :Game[] = []
 
 server.on("listening", ()=>{
     console.log("Game ready!")
 })
 
-/**
- * @returns {string}
- */
-function randomQuestion(){
+export function randomQuestion(){
     return config["random_questions"][Math.floor(Math.random() * config["random_questions"].length)]
 }
 
-module.exports = {
-    config,
-    games,
-    io,
-    server,
-    randomQuestion,
-
-    errors: VotkiError.errors,
-    VotkiError,
-    VotkiPermsError,
-}
+export const errors = VotkiError.errors;
