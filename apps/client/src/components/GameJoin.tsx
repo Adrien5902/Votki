@@ -1,3 +1,5 @@
+import { request } from "../functions";
+
 export function GameJoin({ gameId, username, avatar, display }) {
     function handleClick(e){
         request("rename", null, username);

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { User } from "./User";
+import { socket } from "../functions";
 
 export function PlayerList({users: u}) {
     const [users, setUsers] = useState(u)

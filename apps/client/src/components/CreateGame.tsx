@@ -1,3 +1,5 @@
+import { request } from "../functions"
+
 export function CreateGame({ username, setUsername, display }) {
     const createGameHandler = () => {
         let name = username ? username : null

@@ -2,7 +2,7 @@ import https from 'https';
 import fs from "fs";
 import { Server } from "socket.io";
 import Game from './game';
-import config from "./../config.json"
+import config from "./../config.json" assert { type: "json" };
 
 const options = {
     key: fs.readFileSync('C:\\SSL certs\\privkey.pem'),

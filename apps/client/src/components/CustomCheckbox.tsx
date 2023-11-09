@@ -9,7 +9,7 @@ export function CustomCheckbox({ defaultCheck, cb }) {
     }
 
     return (
-    <div className="custom-checkbox" onClick={handleClick} checked={checked}>
+    <div className="custom-checkbox" onClick={handleClick} defaultChecked={checked}>
         <i className="fa-solid fa-check"></i>
     </div>
     );

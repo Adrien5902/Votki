@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { request } from '../functions';
 
 export function ChooseName(props) {
     let {setUsername, setAvatar} = props,

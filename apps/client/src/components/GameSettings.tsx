@@ -1,12 +1,19 @@
 import { useState } from "react";
 import { GameRules } from "./GameRules.jsx";
 import { Invite } from "./Invite.jsx";
+import { request } from "../functions.js";
+import { GameSettings } from "../../../shared/game.js";
+
+interface Props{
+    gameId: number
+    settings: GameSettings
+}
 
 function startGame(){
     request("startGame")
 }
 
-export function GameSettings(props) {
+export function GameSettingsElement(props: Props) {
     let {gameId} = props
 
     const [settings, setSettings] = useState(props.settings ?? null)

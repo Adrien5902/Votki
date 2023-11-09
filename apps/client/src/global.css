@@ -301,7 +301,7 @@ input::placeholder{
     border-radius: var(--lot);
 }
 
-.user[you="true"]{
+.user[data-you="true"]{
     background: var(--accent);
 }
 
@@ -329,19 +329,19 @@ input::placeholder{
 	background-color: var(--secondary);
 }
 
-.user[grade="1"] .fa-crown{
+.user[data-grade="1"] .fa-crown{
     color: limegreen;
 }
 
-.user[grade="2"] .fa-crown{
+.user[data-grade="2"] .fa-crown{
     color: gold;
 }
 
-.user[grade="3"] .fa-crown{
+.user[data-grade="3"] .fa-crown{
     color: orange;
 }
 
-.user[grade="4"] .fa-crown{
+.user[data-grade="4"] .fa-crown{
     color: red;
 }
 
