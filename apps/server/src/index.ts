@@ -9,7 +9,7 @@ io.on('connection', client => {
         console.log("User " + user.name + " disconnected")
         try {
             user.leave()
-        } catch (error) {}
+        } catch (error) { }
     })
 });
 
@@ -20,12 +20,12 @@ let rl = readline.createInterface({
     output: process.stdout,
 })
 
-function findUser(username: string){
-    for(let game of games){
+function findUser(username: string) {
+    for (let game of games) {
         let user = game.users.find(user => user.name == username)
 
-        if(user)
-        return user
+        if (user)
+            return user
     }
     return null
 }
@@ -35,9 +35,9 @@ const commands = {
         execute: (username: string, grade = 2) => {
             let user = findUser(username)
             grade = Number(grade)
-            if(user){
+            if (user) {
                 user.grade = grade
-                if(user.game) user.game.broadcast("playersChanged", user.game.getUsers())
+                if (user.game) user.game.broadcast("playersChanged", user.game.getUsers())
             }
         }
     },
@@ -45,7 +45,7 @@ const commands = {
     "kick": {
         execute: (username: string) => {
             let user = findUser(username)
-            if(user){
+            if (user) {
                 user.leave()
                 user.client.disconnect(true)
             }
@@ -54,8 +54,8 @@ const commands = {
 }
 
 rl.on('line', (line) => {
-    for(let commandName of Object.keys(commands)){
-        if(!line.startsWith(commandName)){
+    for (let commandName of Object.keys(commands)) {
+        if (!line.startsWith(commandName)) {
             continue
         }
 
