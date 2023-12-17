@@ -24,6 +24,6 @@
   },
   "homepage": "https://github.com/Adrien5902/Votki#readme",
   "devDependencies": {
-    "turbo": "^1.10.16"
+    "turbo": "^1.11.2"
   }
 }
