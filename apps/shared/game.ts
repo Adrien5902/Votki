@@ -2,12 +2,12 @@ import { UserResolvable } from "./user"
 
 export type GameMode = "normal"
 
-export interface GameSettings{
+export interface GameSettings {
     mode: GameMode
     "random-questions"?: boolean
 }
 
-export interface GameResolvable{
+export interface GameResolvable {
     users: UserResolvable[]
     phaseIndex: number
     // phase: 

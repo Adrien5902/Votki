@@ -1,9 +1,9 @@
 const connecting = document.getElementById("connecting"),
-connectionError = document.getElementById("connection-error")
+    connectionError = document.getElementById("connection-error")
 
 connecting.style.display = "none"
 
-if(typeof io == "undefined"){
+if (typeof io == "undefined") {
     connectionError.style.display = "block"
 }
 
@@ -13,16 +13,16 @@ const params = Object.fromEntries(urlSearchParams.entries());
 
 const errorPopups = document.getElementById("error-popups")
 /** @param {string} err  */
-function error(err){
+function error(err) {
     let errorDiv = document.createElement("div")
     document.body.appendChild(errorDiv)
 
-    errorDiv.innerHTML = 
-    `<i class="fa-solid fa-triangle-exclamation"></i>
+    errorDiv.innerHTML =
+        `<i class="fa-solid fa-triangle-exclamation"></i>
     <span>${err}</span>`
 
     errorPopups.appendChild(errorDiv)
-    setTimeout(()=>{
+    setTimeout(() => {
         errorPopups.removeChild(errorDiv)
     }, 5000)
 }
@@ -36,11 +36,11 @@ let usernameInput = document.getElementById("username")
  * @param {function} cb 
  * @param  {...any} arg 
  */
-function request(event, cb, ...arg){
+function request(event, cb, ...arg) {
     socket.emit(event, ...arg)
-    socket.on(event, (...res)=>{
+    socket.on(event, (...res) => {
         socket.off(event)
-        if(typeof cb == "function"){
+        if (typeof cb == "function") {
             cb(...res)
         }
     })
@@ -50,16 +50,16 @@ function request(event, cb, ...arg){
  * @param {Object} button 
  * @returns {HTMLButtonElement}
  */
-function createButton(button){
+function createButton(button) {
     let btn = document.createElement("button")
     btn.innerHTML = button.text
 
-    if(button.style)
-    btn.setAttribute("style", button.style)
+    if (button.style)
+        btn.setAttribute("style", button.style)
 
     btn.addEventListener("click", e => {
-        if(button.action)
-        button.action()
+        if (button.action)
+            button.action()
     })
     return btn
 }
@@ -68,16 +68,16 @@ function createButton(button){
  * @param {HTMLElement} el 
  * @param {Object[]} buttons 
  */
-function addRightClick(el, buttons){
+function addRightClick(el, buttons) {
     el.addEventListener("contextmenu", e => {
         e.preventDefault();
 
         let contextMenu = document.getElementById("context-menu")
-        if(contextMenu)
-        contextMenu.remove()
-    
+        if (contextMenu)
+            contextMenu.remove()
+
         const { clientX: mouseX, clientY: mouseY } = e;
-    
+
         contextMenu = document.createElement("div")
         contextMenu.id = "context-menu"
         document.body.appendChild(contextMenu)
@@ -85,13 +85,13 @@ function addRightClick(el, buttons){
         contextMenu.style.top = `${mouseY}px`;
         contextMenu.style.left = `${mouseX}px`;
 
-        for(let button of buttons){
+        for (let button of buttons) {
             let btn = createButton(button)
 
             btn.addEventListener("click", e => {
                 contextMenu.remove()
             })
-            
+
             contextMenu.appendChild(btn)
         }
 
@@ -106,18 +106,18 @@ function addRightClick(el, buttons){
 /**CSSclass
  * @param {string | string[]} menu 
  */
-function display(menu = "main", CSSclass = "displayed"){
-    document.querySelectorAll("."+CSSclass).forEach(el => {
-        if(!el.classList.contains("swap")){
+function display(menu = "main", CSSclass = "displayed") {
+    document.querySelectorAll("." + CSSclass).forEach(el => {
+        if (!el.classList.contains("swap")) {
             el.classList.remove(CSSclass)
-        }else{
-            setTimeout(()=>{
+        } else {
+            setTimeout(() => {
                 el.classList.remove(CSSclass)
             }, 1000)
         }
     })
 
-    if(!Array.isArray(menu)){
+    if (!Array.isArray(menu)) {
         menu = [menu]
     }
 
@@ -126,7 +126,7 @@ function display(menu = "main", CSSclass = "displayed"){
     })
 }
 
-function showCreateGameMenu(){
+function showCreateGameMenu() {
     createGameBtn = document.querySelector("#create-game button")
     display(["choose-name", "create-game"])
 
@@ -134,7 +134,7 @@ function showCreateGameMenu(){
         let name = usernameInput.value ? usernameInput.value : null
 
         request("createGame", info => {
-            if(info && info.id){
+            if (info && info.id) {
                 console.log(info)
                 username = info.username
                 display(["choose-name", "create-game"], "swap")
@@ -147,7 +147,7 @@ function showCreateGameMenu(){
     }
 }
 
-function displaySettings(settings){
+function displaySettings(settings) {
     let modes = document.querySelectorAll("#modes > *")
     modes.forEach(el => el.removeAttribute("selected"))
 
@@ -155,37 +155,37 @@ function displaySettings(settings){
     selectedMode.setAttribute("selected", "")
 
     let gameRules = document.getElementById("game-settings-rules")
-    gameRules.childNodes.forEach(el => {if(el.style){el.style.display = "none"}})
-    for(let setting of Object.keys(settings)){
-        if(setting != "mode"){
+    gameRules.childNodes.forEach(el => { if (el.style) { el.style.display = "none" } })
+    for (let setting of Object.keys(settings)) {
+        if (setting != "mode") {
             let data = settings[setting]
             let el = gameRules.querySelector(`[setting=${setting}]`)
 
-            if(!el){
+            if (!el) {
                 let div = document.createElement("div")
                 div.setAttribute("setting", setting)
                 gameRules.appendChild(div)
-    
-                switch(data.type){
-                    case("boolean"): 
+
+                switch (data.type) {
+                    case ("boolean"):
                         let checkBox = document.createElement("custom-checkbox")
                         checkBox.setAttribute("checked", String(data.value))
                         div.appendChild(checkBox)
-                            
+
                         customCheckBox(checkBox, false, (state) => {
                             request("setGameSetting", null, setting, state)
                         })
-    
+
                         break
                 }
-    
+
                 let label = document.createElement("label")
                 label.innerHTML = data.name
                 div.appendChild(label)
-            }else{
+            } else {
                 el.style.display = ""
-                switch(data.type){
-                    case("boolean"): 
+                switch (data.type) {
+                    case ("boolean"):
                         let checkBox = el.querySelector("custom-checkbox")
                         checkBox.setAttribute("checked", String(data.value))
                 }
@@ -230,17 +230,17 @@ function tryGameJoin(gameId) {
 /**
  * @param {string} gameId 
  */
-function displayGameInvite(gameId){
+function displayGameInvite(gameId) {
     let invite = `https://adrien5902.ddns.net/votki/?game=${gameId}`
 
     if (history.pushState) {
         let newurl = invite;
-        window.history.pushState({path:newurl},'',newurl);
+        window.history.pushState({ path: newurl }, '', newurl);
     }
 
     let inviteLink = document.querySelector("#invite-link > span")
     let copyBtn = document.querySelector("#invite-link > button")
-    
+
     inviteLink.innerHTML = invite
 
     copyBtn.onclick = () => {
@@ -249,11 +249,11 @@ function displayGameInvite(gameId){
         copyBtn.style.borderColor = "var(--accent)"
         copyBtn.innerHTML = '<i class="fa-solid fa-clipboard-check"></i> Copié'
 
-        setTimeout(()=>{
+        setTimeout(() => {
             copyBtn.style.background = ""
             copyBtn.style.borderColor = ""
             copyBtn.innerHTML = '<i class="fa-solid fa-clipboard"></i> Copier'
-        },1000)
+        }, 1000)
     }
 
     inviteLink.onmouseleave = () => inviteLink.scrollLeft = 0
@@ -263,7 +263,7 @@ let playerList = document.getElementById("player-list")
 /**
  * @param {any[]} users 
  */
-function displayPlayers(users, username){
+function displayPlayers(users, username) {
     playerList.innerHTML = ""
     users.forEach(user => {
         let userDiv = document.createElement("div")
@@ -275,11 +275,11 @@ function displayPlayers(users, username){
             <img src="avatars/${user.avatar}" class="pdp" draggable="false">
             <span class="username">${user.name}</span>
         </div>`;
-        
-        if(user.grade >= 1)
-        userDiv.innerHTML += '<i class="fa-solid fa-crown user-grade"></i>'
 
-        if(user.name == username){
+        if (user.grade >= 1)
+            userDiv.innerHTML += '<i class="fa-solid fa-crown user-grade"></i>'
+
+        if (user.name == username) {
             userDiv.setAttribute("you", "")
         }/* else{
             addRightClick(userDiv, [
@@ -296,10 +296,10 @@ function displayPlayers(users, username){
 
 socket.on("connect", () => {
     connecting.style.display = "none"
-    if(params.game){
+    if (params.game) {
         let gameId = params.game
         tryGameJoin(gameId)
-    }else{
+    } else {
         showCreateGameMenu()
     }
 
@@ -310,12 +310,12 @@ socket.on("connect", () => {
                 socket.connect()
                 showCreateGameMenu()
                 break;
-        
+
             case "ping timeout":
                 socket.connect()
                 connecting.style.display = "block"
                 break;
-        
+
             default:
                 break;
         }
@@ -328,22 +328,22 @@ socket.on("settingsChanged", displaySettings)
 
 request("getGameModes", modes => {
     let modesContainer = document.getElementById("modes")
-    for(let mode of Object.keys(modes)){
+    for (let mode of Object.keys(modes)) {
         let m = modes[mode]
-        
+
         let modeDiv = document.createElement("div")
         modeDiv.classList.add("flip")
         modeDiv.setAttribute("mode", mode)
 
-        if(m.default)
-        modeDiv.setAttribute("selected", "")
+        if (m.default)
+            modeDiv.setAttribute("selected", "")
 
-        modeDiv.innerHTML = 
-        `<span class="flip-front">${m.name}</span>
+        modeDiv.innerHTML =
+            `<span class="flip-front">${m.name}</span>
         <span class="flip-back">${m.description}</span>`
 
         modesContainer.appendChild(modeDiv)
-        
+
         modeDiv.onclick = () => {
             request("setGameMode", null, mode)
         }
@@ -357,12 +357,12 @@ socket.on("error", error)
  * @param {boolean} updateOnClick 
  * @param {function} cb 
  */
-function customCheckBox(el, updateOnClick = true, cb = () => {}){
+function customCheckBox(el, updateOnClick = true, cb = () => { }) {
     let i = document.createElement("i")
     i.classList.add("fa-check", "fa-solid")
     el.appendChild(i)
-    
-    function update(state){
+
+    function update(state) {
         el.setAttribute("checked", String(state))
     }
 
@@ -371,19 +371,19 @@ function customCheckBox(el, updateOnClick = true, cb = () => {}){
     el.onclick = () => {
         let state = el.getAttribute("checked") != "true"
 
-        if(updateOnClick){
+        if (updateOnClick) {
             update(state)
         }
 
-        if(typeof cb == "function"){
+        if (typeof cb == "function") {
             cb(state)
         }
     }
 }
 
-function getRandomAvatar(){
+function getRandomAvatar() {
     request("getRandomAvatar", (avatar) => {
-        document.getElementById("avatar").src = "avatars/"+avatar
+        document.getElementById("avatar").src = "avatars/" + avatar
     })
 }
 
@@ -397,7 +397,7 @@ rerollAvatar.onclick = () => {
         {
             transform: "rotate(-360deg)"
         }
-    ], {duration : 150})
+    ], { duration: 150 })
 }
 getRandomAvatar()
 
@@ -408,7 +408,7 @@ document.getElementById("start-game").onclick = () => {
 socket.on("gameUpdate", (status) => {
     switch (status) {
         case "ask-questions":
-            
+
             break;
     }
 })
