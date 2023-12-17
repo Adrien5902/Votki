@@ -1,9 +1,9 @@
-import { games, VotkiError, io } from "./misc.ts";
-import GamePhase, { LobbyGamePhase, SummaryGamePhase } from "./phases.ts";
-import User from "./user.ts";
-import config from './../config.json' assert { type: "json" };
-import { GameMode, GameResolvable, GameSettings } from './../../../shared/game.ts';
-import { UserResolvable } from "../../../shared/user.ts";
+import { games, VotkiError, io } from "./misc";
+import GamePhase, { LobbyGamePhase, SummaryGamePhase } from "./phases";
+import User from "./user";
+import { GameMode, GameResolvable, GameSettings } from '../../../shared/src/game';
+import { UserResolvable } from "../../../shared/src/user";
+import { config } from "votki-shared-types";
 
 const chars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

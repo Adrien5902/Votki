@@ -1,3 +1,4 @@
+import { request } from "../functions";
 import { CustomCheckbox } from "./CustomCheckbox";
 
 export function GameRules({ settings }) {
@@ -10,13 +11,13 @@ export function GameRules({ settings }) {
 
             <div id="game-settings-rules">
                 {Object.keys(settings).map((setting, index) => {
-                    if(setting == "mode"){
+                    if (setting == "mode") {
                         return
                     }
 
                     let data = settings[setting]
-                    
-                    return <GameRule 
+
+                    return <GameRule
                         setting={setting}
                         data={data}
                         key={index}
@@ -27,20 +28,20 @@ export function GameRules({ settings }) {
     ) : <span className="tripledotloading">Chargement</span>;
 }
 
-function GameRule({setting, data}) {
+function GameRule({ setting, data }) {
     return (
-    <div setting={setting}>
-        {
-            data.type == "boolean" ? 
-            <CustomCheckbox checked={String(data.value)} cb={(state) => {
-                request("setGameSetting", null, setting, state);
-            }}/> : ""
-        }
+        <div data-setting={setting}>
+            {
+                data.type == "boolean" ?
+                    <CustomCheckbox defaultCheck={data.value} cb={(state) => {
+                        request("setGameSetting", null, setting, state);
+                    }} /> : ""
+            }
 
-        <label>
-            <i style={{margin: "0.3em"}} className={`fa-solid fa-${data.icon}`}></i>
-            <span>{data.name}</span>
-        </label>
-    </div>
+            <label>
+                <i style={{ margin: "0.3em" }} className={`fa-solid fa-${data.icon}`}></i>
+                <span>{data.name}</span>
+            </label>
+        </div>
     );
 }

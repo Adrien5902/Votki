@@ -1,4 +1,10 @@
-export function User({ user }) {
+import { UserResolvable } from "votki-shared-types/src/user";
+
+interface Props {
+    user: UserResolvable
+}
+
+export function User({ user }: Props) {
     return (
         <div className="user" data-grade={user.grade} data-you={String(user.you)}>
             <div className="user-main">

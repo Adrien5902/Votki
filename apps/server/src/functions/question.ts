@@ -1,5 +1,5 @@
-import { randomQuestion } from "./misc.ts"
-import User from "./user.ts"
+import { randomQuestion } from "./misc"
+import User from "./user"
 
 export default class Question {
     asker: User

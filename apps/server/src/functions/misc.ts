@@ -2,7 +2,7 @@ import https from 'https';
 import fs from "fs";
 import { Server } from "socket.io";
 import Game from './game';
-import config from "./../config.json" assert { type: "json" };
+import { config } from 'votki-shared-types';
 
 const options = process.argv[2] == "dev" ? {} : {
     key: fs.readFileSync('C:\\SSL certs\\privkey.pem'),
@@ -11,7 +11,7 @@ const options = process.argv[2] == "dev" ? {} : {
 
 export const server = https.createServer(options);
 
-export const io = new Server(server, {
+export const io: Server = new Server(server, {
     cors: {
         origin: "https://adrien5902.ddns.net",
         methods: ["GET", "POST"]

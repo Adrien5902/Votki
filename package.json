@@ -4,6 +4,7 @@
   "description": "Votki web game by Adrien5902",
   "scripts": {
     "dev": "turbo dev",
+    "build": "turbo build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/Adrien5902/Votki#readme",
   "devDependencies": {
+    "prettier": "3.1.1",
     "turbo": "^1.11.2"
   }
 }

@@ -1,5 +1,5 @@
-import Game from "./game.ts"
-import Question from "./question.ts"
+import Game from "./game"
+import Question from "./question"
 
 export default class GamePhase {
     maxRound: number

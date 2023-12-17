@@ -1,10 +1,10 @@
 import { Socket } from "socket.io"
-import Game from "./game.ts"
-import config from "./../config.json" assert { type: "json" };
-import { VotkiError, VotkiPermsError, games } from "./misc.ts"
+import Game from "./game"
+import { VotkiError, VotkiPermsError, games } from "./misc"
 import { readdirSync } from "fs"
-import { UserResolvable } from "../../../shared/user.ts";
-import { GameMode, GameResolvable } from "../../../shared/game.ts";
+import { config } from "votki-shared-types"
+import { UserResolvable } from "votki-shared-types/src/user"
+import { GameMode, GameResolvable } from "votki-shared-types/src/game"
 
 export default class User implements UserResolvable {
     client: Socket

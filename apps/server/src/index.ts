@@ -1,5 +1,5 @@
-import { io, server, games } from './functions/misc.ts';
-import User from './functions/user.ts';
+import { io, server, games } from './functions/misc';
+import User from './functions/user';
 import readline from 'readline';
 
 io.on('connection', client => {

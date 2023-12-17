@@ -2,22 +2,22 @@ import { useState } from "react";
 import { GameRules } from "./GameRules.jsx";
 import { Invite } from "./Invite.jsx";
 import { request } from "../functions.js";
-import { GameSettings } from "../../../shared/game.js";
+import { GameSettings } from "../../../shared/src/game.js";
 
-interface Props{
+interface Props {
     gameId: number
     settings: GameSettings
 }
 
-function startGame(){
+function startGame() {
     request("startGame")
 }
 
 export function GameSettingsElement(props: Props) {
-    let {gameId} = props
+    let { gameId } = props
 
     const [settings, setSettings] = useState(props.settings ?? null)
-    if(!settings){
+    if (!settings) {
         request("getGameSettings", setSettings)
     }
 
@@ -30,11 +30,11 @@ export function GameSettingsElement(props: Props) {
                 <h3><i className="fa-solid fa-gamepad"></i> Mode :</h3>
                 <div id="modes"></div>
             </div>
-            
+
             <GameRules settings={settings} />
-            
+
             <Invite inviteLink={inviteLink} />
-            
+
             <button id="start-game" onClick={startGame}>
                 <i className="fa-solid fa-play"></i> <span>Lancer la partie</span>
             </button>
