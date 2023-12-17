@@ -4,22 +4,22 @@ import { Server } from "socket.io";
 import Game from './game';
 import config from "./../config.json" assert { type: "json" };
 
-const options = {
+const options = process.argv[2] == "dev" ? {} : {
     key: fs.readFileSync('C:\\SSL certs\\privkey.pem'),
     cert: fs.readFileSync('C:\\SSL certs\\cert.pem')
 };
 
 export const server = https.createServer(options);
 
-export const io = new Server(server, {  
+export const io = new Server(server, {
     cors: {
         origin: "https://adrien5902.ddns.net",
         methods: ["GET", "POST"]
     }
 });
 
-export class VotkiError extends Error{
-    constructor(message = "Une erreur est survenue"){
+export class VotkiError extends Error {
+    constructor(message = "Une erreur est survenue") {
         message = message ?? "Une erreur est survenue"
         super(message)
     }
@@ -33,21 +33,21 @@ export class VotkiError extends Error{
     }
 }
 
-export class VotkiPermsError extends VotkiError{
+export class VotkiPermsError extends VotkiError {
     level: number
-    constructor(level: number){
+    constructor(level: number) {
         super(`Vous avez besoin de permissions de niveau ${level} pour faire ceci`)
         this.level = level
     }
 }
 
-export const games :Game[] = []
+export const games: Game[] = []
 
-server.on("listening", ()=>{
+server.on("listening", () => {
     console.log("Game ready!")
 })
 
-export function randomQuestion(){
+export function randomQuestion() {
     return config["random_questions"][Math.floor(Math.random() * config["random_questions"].length)]
 }
 
